@@ -14,7 +14,7 @@ const arrayRouter = [
     element: <Create />,
   },
   {
-    path: "/Update",
+    path: "/update/:id",
     element: <Update />,
   },
 ];

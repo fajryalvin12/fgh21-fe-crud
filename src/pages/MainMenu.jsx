@@ -1,16 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function MainMenu() {
   const [reveal, setReveal] = useState([]);
-
+  const nav = useNavigate();
   async function getData() {
     const endpoint = "http://localhost:8888/users";
     const response = await fetch(endpoint);
     const data = await response.json();
     const dataUser = data.results;
-    console.log(dataUser);
     setReveal(dataUser);
   }
   useEffect(() => {
@@ -22,6 +21,10 @@ function MainMenu() {
       method: "DELETE",
     });
     getData();
+  }
+
+  function toEdit(id) {
+    nav("/update/" + id);
   }
 
   return (
@@ -57,8 +60,11 @@ function MainMenu() {
                     {item.email}
                   </td>
                   <td className="border-gray-500 border py-1 px-4 flex gap-2">
-                    <button className="bg-gray-300 text-white p-1 min-w-16 rounded-[8px]">
-                      <Link to={"/Update"}>Edit</Link>
+                    <button
+                      onClick={() => toEdit(item.id)}
+                      className="bg-gray-300 text-white p-1 min-w-16 rounded-[8px]"
+                    >
+                      Edit
                     </button>
                     <button
                       onClick={() => btnDelete(item.id)}
